@@ -11,10 +11,10 @@ app.use(cors());
 app.use(express.static('public'));
 
 const connection = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
 });
 
 connection.connect((err) => {
@@ -23,6 +23,15 @@ connection.connect((err) => {
     return;
   }
   console.log('Connected to MariaDB as id ' + connection.threadId);
+});
+
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
+
+console.log(`Attempting to start server on ${host}:${port}`);
+
+app.listen(port, host, () => {
+  console.log(`Server is running on http://${host}:${port}`);
 });
 
 // Create the notes table if it doesn't exist
@@ -90,9 +99,4 @@ app.delete('/api/notes/:id', (req, res) => {
     if (err) throw err;
     res.sendStatus(200);
   });
-});
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
