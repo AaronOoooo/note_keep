@@ -32,10 +32,12 @@ textarea {
 }
 
 button {
-  padding: 10px 20px;
+  padding: 8px 15px; /* Make buttons smaller */
   color: white;
   border: none;
   cursor: pointer;
+  border-radius: 8px; /* Rounded corners */
+  font-size: 14px; /* Increase font size for better readability */
 }
 
 /* Save button styling */
