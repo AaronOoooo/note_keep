@@ -37,10 +37,13 @@ async function loadNotes() {
       noteItem.innerHTML = `
         <div class="noteText">${note.text}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
-        <button class="editButton" onclick="editNote(${note.id})">Edit</button>
-        <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>`;
-notesList.appendChild(noteItem);
-
+        <div class="buttons">
+          <button class="editButton" onclick="editNote(${note.id})">Edit</button>
+          <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
+        </div>
+      `;
+      notesList.appendChild(noteItem);
+      
     });
   }
 }

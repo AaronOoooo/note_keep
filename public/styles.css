@@ -35,14 +35,37 @@ textarea {
 
 button {
   padding: 10px 20px;
-  background: #007bff;
   color: white;
   border: none;
   cursor: pointer;
 }
 
-button:hover {
-  background: #0056b3;
+/* Save button styling */
+#saveNoteButton {
+  background: #28a745; /* Green */
+}
+
+#saveNoteButton:hover {
+  background: #218838; /* Darker green */
+}
+
+/* Edit button styling */
+.editButton {
+  background: #007bff; /* Blue */
+  margin-right: 5px;
+}
+
+.editButton:hover {
+  background: #0056b3; /* Darker blue */
+}
+
+/* Move to Top button styling */
+.moveToTopButton {
+  background: #ffc107; /* Yellow */
+}
+
+.moveToTopButton:hover {
+  background: #e0a800; /* Darker yellow */
 }
 
 ul {
@@ -58,6 +81,11 @@ li {
   gap: 5px;
 }
 
+.buttons {
+  display: flex;
+  gap: 5px; /* Space between buttons */
+}
+
 .noteText {
   font-size: 16px;
 }
@@ -65,14 +93,4 @@ li {
 .noteDate {
   font-size: 12px;
   color: #888;
-}
-
-.editButton,
-.moveToTopButton {
-  background: #ffc107;
-}
-
-.editButton:hover,
-.moveToTopButton:hover {
-  background: #e0a800;
 }
