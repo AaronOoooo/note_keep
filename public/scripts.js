@@ -35,12 +35,12 @@ async function loadNotes() {
     notes.forEach((note) => {
       const noteItem = document.createElement('li');
       noteItem.innerHTML = `
-        <div>${note.text}</div>
+        <div class="noteText">${note.text}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <button class="editButton" onclick="editNote(${note.id})">Edit</button>
-        <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
-      `;
-      notesList.appendChild(noteItem);
+        <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>`;
+notesList.appendChild(noteItem);
+
     });
   }
 }
