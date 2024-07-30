@@ -49,6 +49,15 @@ button {
   background: #218838; /* Darker green */
 }
 
+/* Show More button styling */
+#showMoreButton {
+  background: #6c757d; /* Dark grey */
+}
+
+#showMoreButton:hover {
+  background: #5a6268; /* Darker grey */
+}
+
 /* Edit button styling */
 .editButton {
   background: #007bff; /* Blue */
