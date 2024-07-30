@@ -1,13 +1,13 @@
 document.getElementById('saveNoteButton').addEventListener('click', saveNote);
 document.getElementById('showMoreButton').addEventListener('click', showMore);
-document.getElementById('searchInput').addEventListener('input', loadNotes);
+document.getElementById('searchInput').addEventListener('input', searchNotes);
 
-let notesCount = 10;
+let notesCount = 15;
 
 async function saveNote() {
   const noteInput = document.getElementById('noteInput');
   const noteText = noteInput.value.trim();
-  
+
   if (!noteText) return;
 
   const response = await fetch('/api/notes', {
@@ -18,6 +18,7 @@ async function saveNote() {
 
   if (response.ok) {
     noteInput.value = '';
+    notesCount = 15; // Reset to show the first 15 notes
     loadNotes();
   }
 }
@@ -25,7 +26,7 @@ async function saveNote() {
 async function loadNotes() {
   const searchInput = document.getElementById('searchInput');
   const searchQuery = searchInput.value.trim();
-  const response = await fetch(`/api/notes?search=${searchQuery}&offset=${notesCount - 10}`);
+  const response = await fetch(`/api/notes?search=${searchQuery}&offset=0&limit=${notesCount}`);
 
   if (response.ok) {
     const notes = await response.json();
@@ -94,7 +95,39 @@ async function deleteNote(id) {
 
 async function showMore() {
   notesCount += 10;
-  loadNotes();
+  await loadMoreNotes();
+}
+
+async function loadMoreNotes() {
+  const searchInput = document.getElementById('searchInput');
+  const searchQuery = searchInput.value.trim();
+  const response = await fetch(`/api/notes?search=${searchQuery}&offset=${notesCount - 10}&limit=10`);
+
+  if (response.ok) {
+    const notes = await response.json();
+    const notesList = document.getElementById('notesList');
+
+    notes.forEach((note) => {
+      const noteItem = document.createElement('li');
+      noteItem.innerHTML = `
+        <div class="noteText">${note.text}</div>
+        <div class="noteDate">${formatDate(note.date)}</div>
+        <div class="buttons">
+          <button class="editButton" onclick="editNote(${note.id})">Edit</button>
+          <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
+          <div class="deleteButtonContainer">
+            <button class="deleteButton" onclick="deleteNote(${note.id})">Delete</button>
+          </div>
+        </div>
+      `;
+      notesList.appendChild(noteItem);
+    });
+  }
+}
+
+async function searchNotes() {
+  notesCount = 15; // Reset the note count when searching
+  await loadNotes();
 }
 
 loadNotes();
