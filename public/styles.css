@@ -62,10 +62,26 @@ button {
 /* Move to Top button styling */
 .moveToTopButton {
   background: #ffc107; /* Yellow */
+  margin-right: 5px;
 }
 
 .moveToTopButton:hover {
   background: #e0a800; /* Darker yellow */
+}
+
+/* Delete button styling */
+.deleteButton {
+  background: #dc3545; /* Red */
+  padding: 5px 10px; /* Smaller button */
+}
+
+.deleteButton:hover {
+  background: #c82333; /* Darker red */
+}
+
+/* Delete button container */
+.deleteButtonContainer {
+  margin-left: auto; /* Push delete button to the right */
 }
 
 ul {
