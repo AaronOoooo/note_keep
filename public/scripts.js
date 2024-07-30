@@ -40,10 +40,12 @@ async function loadNotes() {
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
           <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
+          <div class="deleteButtonContainer">
+            <button class="deleteButton" onclick="deleteNote(${note.id})">Delete</button>
+          </div>
         </div>
       `;
       notesList.appendChild(noteItem);
-      
     });
   }
 }
@@ -75,6 +77,18 @@ async function moveToTop(id) {
 
   if (response.ok) {
     loadNotes();
+  }
+}
+
+async function deleteNote(id) {
+  if (confirm('Are you sure you want to delete this note?')) {
+    const response = await fetch(`/api/notes/${id}`, {
+      method: 'DELETE'
+    });
+
+    if (response.ok) {
+      loadNotes();
+    }
   }
 }
 
