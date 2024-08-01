@@ -1,22 +1,22 @@
 {
   "name": "note_keep",
   "version": "1.0.0",
-  "description": "This program, created by queries to ChatGPT, is a take on Google Keep application that is degined for quick note taking.",
+  "description": "This program, created by queries to ChatGPT, is a take on Google Keep application that is designed for quick note taking.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AaronOoooo/note_keep.git"
+    "url": "https://github.com/AaronOoooo/keepnote.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AaronOoooo/note_keep/issues"
+    "url": "https://github.com/AaronOoooo/keepnote/issues"
   },
-  "homepage": "https://github.com/AaronOoooo/note_keep#readme",
+  "homepage": "https://github.com/AaronOoooo/keepnote#readme",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",

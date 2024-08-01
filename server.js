@@ -37,7 +37,7 @@ app.get('/api/notes', (req, res) => {
   const query = `
     SELECT * FROM notes
     WHERE text LIKE ?
-    ORDER BY id DESC
+    ORDER BY date DESC
     LIMIT ?, ?
   `;
 
