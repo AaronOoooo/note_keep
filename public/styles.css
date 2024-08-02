@@ -88,6 +88,15 @@ button {
   background: #c82333; /* Darker red */
 }
 
+/* Show All/Show Less button styling */
+.showButton {
+  background: #ff7f50; /* Orange */
+}
+
+.showButton:hover {
+  background: #ff4500; /* Darker orange */
+}
+
 /* Delete button container */
 .deleteButtonContainer {
   margin-left: auto; /* Push delete button to the right */
