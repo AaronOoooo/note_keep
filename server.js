@@ -117,8 +117,26 @@ app.delete('/api/notes/:id', (req, res) => {
   });
 });
 
+// API endpoint to get a specific note
+app.get('/api/notes/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'SELECT * FROM notes WHERE id = ?';
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error('Error fetching note:', err);
+      res.status(500).send(err);
+    } else if (result.length === 0) {
+      res.status(404).send({ error: 'Note not found' });
+    } else {
+      res.json(result[0]);
+    }
+  });
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Attempting to start server on ${process.env.HOST}:${port}`);
   console.log(`Server is running on http://${process.env.HOST}:${port}`);
 });
+

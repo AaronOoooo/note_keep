@@ -35,12 +35,16 @@ async function loadNotes() {
 
     notes.forEach((note) => {
       const noteItem = document.createElement('li');
+      const noteText = note.text.length > 300 ? `${note.text.slice(0, 300)}<b>...</b>` : note.text;
+      const showButton = note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : '';
+
       noteItem.innerHTML = `
-        <div class="noteText">${note.text}</div>
+        <div class="noteText" data-full-text="${note.text}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
           <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
+          ${showButton}
           <div class="deleteButtonContainer">
             <button class="deleteButton" onclick="deleteNote(${note.id})">Delete</button>
           </div>
@@ -109,12 +113,16 @@ async function loadMoreNotes() {
 
     notes.forEach((note) => {
       const noteItem = document.createElement('li');
+      const noteText = note.text.length > 300 ? `${note.text.slice(0, 300)}<b>...</b>` : note.text;
+      const showButton = note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : '';
+
       noteItem.innerHTML = `
-        <div class="noteText">${note.text}</div>
+        <div class="noteText" data-full-text="${note.text}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
           <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
+          ${showButton}
           <div class="deleteButtonContainer">
             <button class="deleteButton" onclick="deleteNote(${note.id})">Delete</button>
           </div>
@@ -128,6 +136,19 @@ async function loadMoreNotes() {
 async function searchNotes() {
   notesCount = 15; // Reset the note count when searching
   await loadNotes();
+}
+
+function toggleText(id, button) {
+  const noteTextElement = button.parentElement.parentElement.querySelector('.noteText');
+  const fullText = noteTextElement.getAttribute('data-full-text');
+
+  if (button.innerText === 'Show All') {
+    noteTextElement.innerHTML = fullText;
+    button.innerText = 'Show Less';
+  } else {
+    noteTextElement.innerHTML = `${fullText.slice(0, 300)}<b>...</b>`;
+    button.innerText = 'Show All';
+  }
 }
 
 loadNotes();
