@@ -50,7 +50,7 @@ app.post('/api/notes', (req, res) => {
   const { headline, text } = req.body;
   const query = 'INSERT INTO notes (headline, text, date) VALUES (?, ?, NOW())';
 
-  db.query(query, [headline, text], (err, result) => {
+  db.query(query, [headline || '', text], (err, result) => {
     if (err) {
       console.error('Error saving note:', err);
       res.status(500).send(err);
@@ -65,7 +65,7 @@ app.put('/api/notes/:id', (req, res) => {
   const { headline, text } = req.body;
   const query = 'UPDATE notes SET headline = ?, text = ?, date = NOW() WHERE id = ?';
 
-  db.query(query, [headline, text, id], (err) => {
+  db.query(query, [headline || '', text, id], (err) => {
     if (err) {
       console.error('Error updating note:', err);
       res.status(500).send(err);
