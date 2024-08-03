@@ -7,11 +7,8 @@ const port = process.env.PORT || 9200;
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-// Log the process of reading .env file
-console.log('Reading environment variables from .env file');
 require('dotenv').config();
 
-// Create a MySQL pool
 const db = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -19,7 +16,6 @@ const db = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-// Log successful database connection
 db.getConnection((err) => {
   if (err) {
     console.error('Error connecting to the database:', err);
@@ -28,7 +24,6 @@ db.getConnection((err) => {
   }
 });
 
-// API endpoint to get notes
 app.get('/api/notes', (req, res) => {
   const searchQuery = req.query.search || '';
   const offset = parseInt(req.query.offset, 10) || 0;
@@ -46,13 +41,11 @@ app.get('/api/notes', (req, res) => {
       console.error('Error fetching notes:', err);
       res.status(500).send(err);
     } else {
-      console.log('Fetched notes:', results.length);
       res.json(results);
     }
   });
 });
 
-// API endpoint to save a new note
 app.post('/api/notes', (req, res) => {
   const { text } = req.body;
   const query = 'INSERT INTO notes (text, date) VALUES (?, NOW())';
@@ -62,13 +55,11 @@ app.post('/api/notes', (req, res) => {
       console.error('Error saving note:', err);
       res.status(500).send(err);
     } else {
-      console.log('Saved new note:', result.insertId);
       res.status(201).send({ id: result.insertId });
     }
   });
 });
 
-// API endpoint to update a note
 app.put('/api/notes/:id', (req, res) => {
   const { id } = req.params;
   const { text } = req.body;
@@ -79,29 +70,11 @@ app.put('/api/notes/:id', (req, res) => {
       console.error('Error updating note:', err);
       res.status(500).send(err);
     } else {
-      console.log('Updated note:', id);
-      res.sendStatus(204);
+      res.sendStatus(200);
     }
   });
 });
 
-// API endpoint to move a note to top
-app.put('/api/notes/:id/move-to-top', (req, res) => {
-  const { id } = req.params;
-  const query = 'UPDATE notes SET date = NOW() WHERE id = ?';
-
-  db.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Error moving note to top:', err);
-      res.status(500).send(err);
-    } else {
-      console.log('Moved note to top:', id);
-      res.sendStatus(204);
-    }
-  });
-});
-
-// API endpoint to delete a note
 app.delete('/api/notes/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM notes WHERE id = ?';
@@ -111,32 +84,38 @@ app.delete('/api/notes/:id', (req, res) => {
       console.error('Error deleting note:', err);
       res.status(500).send(err);
     } else {
-      console.log('Deleted note:', id);
-      res.sendStatus(204);
+      res.sendStatus(200);
     }
   });
 });
 
-// API endpoint to get a specific note
-app.get('/api/notes/:id', (req, res) => {
+app.put('/api/notes/:id/move-to-top', (req, res) => {
   const { id } = req.params;
-  const query = 'SELECT * FROM notes WHERE id = ?';
+  const query = 'UPDATE notes SET date = NOW() WHERE id = ?';
 
   db.query(query, [id], (err, result) => {
     if (err) {
-      console.error('Error fetching note:', err);
+      console.error('Error moving note to top:', err);
       res.status(500).send(err);
-    } else if (result.length === 0) {
-      res.status(404).send({ error: 'Note not found' });
     } else {
-      res.json(result[0]);
+      res.sendStatus(200);
     }
   });
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`Attempting to start server on ${process.env.HOST}:${port}`);
-  console.log(`Server is running on http://${process.env.HOST}:${port}`);
+app.get('/api/notes/count', (req, res) => {
+  const query = 'SELECT COUNT(*) AS count FROM notes';
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching notes count:', err);
+      res.status(500).send(err);
+    } else {
+      res.json(results[0]);
+    }
+  });
 });
 
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
