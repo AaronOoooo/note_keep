@@ -5,18 +5,21 @@ document.getElementById('searchInput').addEventListener('input', searchNotes);
 let notesCount = 15;
 
 async function saveNote() {
+  const headlineInput = document.getElementById('headlineInput');
   const noteInput = document.getElementById('noteInput');
+  const headlineText = headlineInput.value.trim();
   const noteText = noteInput.value.trim();
 
-  if (!noteText) return;
+  if (!headlineText || !noteText) return;
 
   const response = await fetch('/api/notes', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: noteText })
+    body: JSON.stringify({ headline: headlineText, text: noteText })
   });
 
   if (response.ok) {
+    headlineInput.value = '';
     noteInput.value = '';
     notesCount = 15; // Reset to show the first 15 notes
     loadNotes();
@@ -36,6 +39,7 @@ async function loadNotes() {
     notes.forEach((note) => {
       const noteItem = document.createElement('li');
       noteItem.innerHTML = `
+        <div class="noteHeadline">${note.headline}</div>
         <div class="noteText">${note.text.length > 300 ? note.text.slice(0, 300) + '<b>...</b>' : note.text}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
@@ -75,13 +79,14 @@ function formatDate(dateString) {
 }
 
 async function editNote(id) {
+  const headlineText = prompt('Edit your headline:');
   const noteText = prompt('Edit your note:');
-  if (noteText === null) return;
+  if (headlineText === null || noteText === null) return;
 
   const response = await fetch(`/api/notes/${id}`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ text: noteText })
+    body: JSON.stringify({ headline: headlineText, text: noteText })
   });
 
   if (response.ok) {
@@ -131,6 +136,7 @@ async function loadMoreNotes() {
       const showButton = note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : '';
 
       noteItem.innerHTML = `
+        <div class="noteHeadline"><strong>${note.headline}</strong></div>
         <div class="noteText" data-full-text="${note.text}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
