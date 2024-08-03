@@ -31,12 +31,12 @@ app.get('/api/notes', (req, res) => {
 
   const query = `
     SELECT * FROM notes
-    WHERE text LIKE ?
+    WHERE headline LIKE ? OR text LIKE ?
     ORDER BY date DESC
     LIMIT ?, ?
   `;
 
-  db.query(query, [`%${searchQuery}%`, offset, limit], (err, results) => {
+  db.query(query, [`%${searchQuery}%`, `%${searchQuery}%`, offset, limit], (err, results) => {
     if (err) {
       console.error('Error fetching notes:', err);
       res.status(500).send(err);
@@ -47,10 +47,10 @@ app.get('/api/notes', (req, res) => {
 });
 
 app.post('/api/notes', (req, res) => {
-  const { text } = req.body;
-  const query = 'INSERT INTO notes (text, date) VALUES (?, NOW())';
+  const { headline, text } = req.body;
+  const query = 'INSERT INTO notes (headline, text, date) VALUES (?, ?, NOW())';
 
-  db.query(query, [text], (err, result) => {
+  db.query(query, [headline, text], (err, result) => {
     if (err) {
       console.error('Error saving note:', err);
       res.status(500).send(err);
@@ -62,15 +62,29 @@ app.post('/api/notes', (req, res) => {
 
 app.put('/api/notes/:id', (req, res) => {
   const { id } = req.params;
-  const { text } = req.body;
-  const query = 'UPDATE notes SET text = ? WHERE id = ?';
+  const { headline, text } = req.body;
+  const query = 'UPDATE notes SET headline = ?, text = ?, date = NOW() WHERE id = ?';
 
-  db.query(query, [text, id], (err, result) => {
+  db.query(query, [headline, text, id], (err) => {
     if (err) {
       console.error('Error updating note:', err);
       res.status(500).send(err);
     } else {
-      res.sendStatus(200);
+      res.status(204).send();
+    }
+  });
+});
+
+app.put('/api/notes/:id/moveToTop', (req, res) => {
+  const { id } = req.params;
+  const query = 'UPDATE notes SET date = NOW() WHERE id = ?';
+
+  db.query(query, [id], (err) => {
+    if (err) {
+      console.error('Error moving note to top:', err);
+      res.status(500).send(err);
+    } else {
+      res.status(204).send();
     }
   });
 });
@@ -79,26 +93,12 @@ app.delete('/api/notes/:id', (req, res) => {
   const { id } = req.params;
   const query = 'DELETE FROM notes WHERE id = ?';
 
-  db.query(query, [id], (err, result) => {
+  db.query(query, [id], (err) => {
     if (err) {
       console.error('Error deleting note:', err);
       res.status(500).send(err);
     } else {
-      res.sendStatus(200);
-    }
-  });
-});
-
-app.put('/api/notes/:id/move-to-top', (req, res) => {
-  const { id } = req.params;
-  const query = 'UPDATE notes SET date = NOW() WHERE id = ?';
-
-  db.query(query, [id], (err, result) => {
-    if (err) {
-      console.error('Error moving note to top:', err);
-      res.status(500).send(err);
-    } else {
-      res.sendStatus(200);
+      res.status(204).send();
     }
   });
 });
@@ -111,7 +111,7 @@ app.get('/api/notes/count', (req, res) => {
       console.error('Error fetching notes count:', err);
       res.status(500).send(err);
     } else {
-      res.json(results[0]);
+      res.json(results[0].count);
     }
   });
 });
