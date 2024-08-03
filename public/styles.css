@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: #f4f4f4;
-  overflow-y: scroll; /* Enable vertical scrolling */
+  overflow-y: scroll;
 }
 
 .container {
@@ -12,7 +12,8 @@ body {
   background: white;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin: 20px auto; /* Center the container and add margin at the top and bottom */
+  margin: 20px auto;
+  position: relative; /* Add relative positioning to the container */
 }
 
 h1 {
@@ -32,74 +33,67 @@ textarea {
 }
 
 button {
-  padding: 8px 15px; /* Make buttons smaller */
+  padding: 8px 15px;
   color: white;
   border: none;
   cursor: pointer;
-  border-radius: 8px; /* Rounded corners */
-  font-size: 14px; /* Increase font size for better readability */
+  border-radius: 8px;
+  font-size: 14px;
 }
 
-/* Save button styling */
 #saveNoteButton {
-  background: #28a745; /* Green */
+  background: #28a745;
 }
 
 #saveNoteButton:hover {
-  background: #218838; /* Darker green */
+  background: #218838;
 }
 
-/* Show More button styling */
 #showMoreButton {
-  background: #6c757d; /* Dark grey */
+  background: #6c757d;
 }
 
 #showMoreButton:hover {
-  background: #5a6268; /* Darker grey */
+  background: #5a6268;
 }
 
-/* Edit button styling */
 .editButton {
-  background: #007bff; /* Blue */
+  background: #007bff;
   margin-right: 5px;
 }
 
 .editButton:hover {
-  background: #0056b3; /* Darker blue */
+  background: #0056b3;
 }
 
-/* Move to Top button styling */
 .moveToTopButton {
-  background: #ffc107; /* Yellow */
+  background: #ffc107;
   margin-right: 5px;
 }
 
 .moveToTopButton:hover {
-  background: #e0a800; /* Darker yellow */
+  background: #e0a800;
 }
 
-/* Delete button styling */
 .deleteButton {
-  background: #dc3545; /* Red */
-  padding: 5px 10px; /* Smaller button */
+  background: #dc3545;
+  padding: 5px 10px;
 }
 
 .deleteButton:hover {
-  background: #c82333; /* Darker red */
+  background: #c82333;
 }
 
-/* Show All/Show Less button styling */
 .showButton {
-  background: #ff7f50; /* Orange */
+  background: #ff7f50;
 }
 
 .showButton:hover {
-  background: #ff4500; /* Darker orange */
+  background: #ff4500;
 }
 
-/* Delete button container */
 .deleteButtonContainer {
-  margin-left: auto; /* Push delete button to the right */
+  margin-left: auto;
 }
 
 ul {
@@ -117,7 +111,7 @@ li {
 
 .buttons {
   display: flex;
-  gap: 5px; /* Space between buttons */
+  gap: 5px;
 }
 
 .noteText {
@@ -127,4 +121,12 @@ li {
 .noteDate {
   font-size: 12px;
   color: #888;
+}
+
+.entry-count {
+  color: blue;
+  font-size: 12px;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
 }

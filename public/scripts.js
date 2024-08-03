@@ -35,16 +35,13 @@ async function loadNotes() {
 
     notes.forEach((note) => {
       const noteItem = document.createElement('li');
-      const noteText = note.text.length > 300 ? `${note.text.slice(0, 300)}<b>...</b>` : note.text;
-      const showButton = note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : '';
-
       noteItem.innerHTML = `
-        <div class="noteText" data-full-text="${note.text}">${noteText}</div>
+        <div class="noteText">${note.text.length > 300 ? note.text.slice(0, 300) + '<b>...</b>' : note.text}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
           <button class="moveToTopButton" onclick="moveToTop(${note.id})">Move to Top</button>
-          ${showButton}
+          ${note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : ''}
           <div class="deleteButtonContainer">
             <button class="deleteButton" onclick="deleteNote(${note.id})">Delete</button>
           </div>
@@ -52,7 +49,23 @@ async function loadNotes() {
       `;
       notesList.appendChild(noteItem);
     });
+
+    updateEntryCount(notes.length, await getTotalEntriesCount());
   }
+}
+
+function updateEntryCount(displayedCount, totalCount) {
+  const entryCount = document.getElementById('entryCount');
+  entryCount.textContent = `Entries: ${displayedCount} / ${totalCount}`;
+}
+
+async function getTotalEntriesCount() {
+  const response = await fetch(`/api/notes/count`);
+  if (response.ok) {
+    const result = await response.json();
+    return result.count;
+  }
+  return 0;
 }
 
 function formatDate(dateString) {
@@ -131,6 +144,8 @@ async function loadMoreNotes() {
       `;
       notesList.appendChild(noteItem);
     });
+
+    updateEntryCount(notesList.children.length, await getTotalEntriesCount());
   }
 }
 
@@ -152,4 +167,5 @@ function toggleText(id, button) {
   }
 }
 
-loadNotes();
+// Initial load
+document.addEventListener('DOMContentLoaded', loadNotes);
