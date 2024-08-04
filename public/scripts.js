@@ -44,7 +44,7 @@ async function loadNotes() {
       const noteItem = document.createElement('li');
       noteItem.innerHTML = `
         <div class="noteHeadline"><strong>${headline}</strong></div>
-        <div class="noteText" data-full-text="${note.text}">${noteText}</div>
+        <div class="noteText" data-full-text="${note.text}" data-truncated-text="${note.text.slice(0, 300) + '<b>...</b>'}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
@@ -142,7 +142,7 @@ async function loadMoreNotes() {
       const noteItem = document.createElement('li');
       noteItem.innerHTML = `
         <div class="noteHeadline"><strong>${headline}</strong></div>
-        <div class="noteText" data-full-text="${note.text}">${noteText}</div>
+        <div class="noteText" data-full-text="${note.text}" data-truncated-text="${note.text.slice(0, 300) + '<b>...</b>'}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
           <button class="editButton" onclick="editNote(${note.id})">Edit</button>
@@ -168,12 +168,13 @@ async function searchNotes() {
 function toggleText(id, button) {
   const noteTextElement = button.parentElement.parentElement.querySelector('.noteText');
   const fullText = noteTextElement.getAttribute('data-full-text');
+  const truncatedText = noteTextElement.getAttribute('data-truncated-text');
 
   if (button.innerText === 'Show All') {
     noteTextElement.innerHTML = fullText;
     button.innerText = 'Show Less';
   } else {
-    noteTextElement.innerHTML = `${fullText.slice(0, 300)}<b>...</b>`;
+    noteTextElement.innerHTML = truncatedText;
     button.innerText = 'Show All';
   }
 }
