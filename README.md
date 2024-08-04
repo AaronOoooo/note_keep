@@ -1,17 +1,19 @@
-# note_keep
-# AaronOoooo
+# keepnote
+
 ## Overview
 
 This Note-Taking App is a simple and intuitive application designed for quick and efficient note-taking. Inspired by Google Keep, this app allows users to create, edit, and manage their notes with ease. The application is built using HTML, CSS, JavaScript for the front end, and Node.js with Express and MariaDB for the back end.
 
 ## Features
 
-- Create new notes with ease.
+- Create new notes with headlines and supporting text.
 - Edit existing notes.
 - Move notes to the top of the list.
 - Delete notes that are no longer needed.
 - Search through notes.
 - View notes with timestamps.
+- Show more notes functionality.
+- Responsive design.
 
 ## Technologies Used
 
@@ -35,64 +37,73 @@ This Note-Taking App is a simple and intuitive application designed for quick an
    git clone https://github.com/AaronOoooo/keepnote.git
    cd keepnote
 
-2. Install Dependencies:
+2. **Install Dependencies:**
 
-    npm install
-    
-3. Set Up Environment Variables:
+   npm install
 
-    Create a .env file in the root directory of the project and populate it with your MariaDB credentials and server details.
+3. **Set Up Environment Variables:**
 
-    DB_HOST=192.168.50.214
-    DB_USER=pi
-    DB_PASSWORD=<Your_MariaDB_Password>
-    DB_NAME=notes_app
-    HOST=192.168.50.214
-    PORT=9200
+   Create a `.env` file in the root directory of the project and populate it with your MariaDB credentials and server details.
 
-4. Start MariaDB Server:
+   DB_HOST=192.168.50.214
+   DB_USER=pi
+   DB_PASSWORD=<Your_MariaDB_Password>
+   DB_NAME=notes_app
+   HOST=192.168.50.214
+   PORT=9200
 
-    Make sure your MariaDB server is running and accessible.
+4. **Start MariaDB Server:**
 
-    sudo systemctl start mariadb
+   Make sure your MariaDB server is running and accessible.
 
-5. Run the Application:
+   sudo systemctl start mariadb
 
-    node server.js
-    The server will start on the specified host and port (e.g., http://192.168.50.214:9200).
+5. **Run the Application:**
 
-Usage
-1. Access the App:
+   node server.js
 
-    Open your browser and navigate to the server URL (e.g., http://192.168.50.214:9200).
+   The server will start on the specified host and port (e.g., http://192.168.50.214:9200).
 
-2. Create a Note:
+## Usage
 
-    Enter your note in the provided text area.
-    Click the "Save Note" button.
+1. **Access the App:**
 
-3. Edit a Note:
+   Open your browser and navigate to the server URL (e.g., http://192.168.50.214:9200).
 
-    Click the "Edit" button next to the note you want to edit.
-    Modify the note text and save changes.
+2. **Create a Note:**
 
-4. Move a Note to the Top:
+   - Enter your headline and note in the provided input fields.
+   - Click the "Save Note" button.
 
-    Click the "Move to Top" button next to the note you want to prioritize.
+3. **Edit a Note:**
 
-5. Delete a Note:
+   - Click the "Edit" button next to the note you want to edit.
+   - Modify the headline and note text and save changes.
 
-    Click the "Delete" button next to the note you want to remove.
+4. **Move a Note to the Top:**
 
-6. Search Notes:
+   - Click the "Move to Top" button next to the note you want to prioritize.
 
-    Use the search bar to find notes containing specific text.
+5. **Delete a Note:**
 
-Contributing
+   - Click the "Delete" button next to the note you want to remove.
+
+6. **Search Notes:**
+
+   - Use the search bar to find notes containing specific text.
+
+7. **Show More Notes:**
+
+   - Click the "Show More" button to load additional notes.
+
+## Contributing
+
 Contributions are welcome! If you'd like to contribute, please fork the repository and create a pull request with your changes.
 
-License
+## License
+
 This project is licensed under the ISC License. See the LICENSE file for details.
 
-Acknowledgements
+## Acknowledgements
+
 Special thanks to the contributors and the open-source community for their invaluable support and resources.
