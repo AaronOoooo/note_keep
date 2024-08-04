@@ -75,7 +75,7 @@ app.put('/api/notes/:id', (req, res) => {
   });
 });
 
-app.put('/api/notes/:id/moveToTop', (req, res) => {
+app.put('/api/notes/:id/move-to-top', (req, res) => {
   const { id } = req.params;
   const query = 'UPDATE notes SET date = NOW() WHERE id = ?';
 

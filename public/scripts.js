@@ -135,12 +135,13 @@ async function loadMoreNotes() {
     const notesList = document.getElementById('notesList');
 
     notes.forEach((note) => {
-      const noteItem = document.createElement('li');
-      const noteText = note.text.length > 300 ? `${note.text.slice(0, 300)}<b>...</b>` : note.text;
+      const headline = note.headline || ''; // Handle empty headlines
+      const noteText = note.text.length > 300 ? note.text.slice(0, 300) + '<b>...</b>' : note.text;
       const showButton = note.text.length > 300 ? `<button class="showButton" onclick="toggleText(${note.id}, this)">Show All</button>` : '';
 
+      const noteItem = document.createElement('li');
       noteItem.innerHTML = `
-        <div class="noteHeadline"><strong>${note.headline}</strong></div>
+        <div class="noteHeadline"><strong>${headline}</strong></div>
         <div class="noteText" data-full-text="${note.text}">${noteText}</div>
         <div class="noteDate">${formatDate(note.date)}</div>
         <div class="buttons">
