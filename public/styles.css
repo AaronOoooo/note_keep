@@ -20,16 +20,34 @@ h1 {
   text-align: center;
 }
 
-.note-form,
-.search-bar {
+.note-form {
   margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 }
 
-input[type="text"], textarea {
+input[type="text"],
+textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 10px;
   font-size: 14px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input[type="text"] {
+  border-bottom: 1px solid #ddd;
+  border-radius: 10px 10px 0 0;
+}
+
+textarea {
+  border-radius: 0 0 10px 10px;
+  resize: vertical;
 }
 
 button {
